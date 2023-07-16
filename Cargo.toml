@@ -7,7 +7,7 @@ description = "Use LM programs to drive ChatGPT in a functional style"
 edition = "2018"
 readme = "README.md"
 repository = "https://github.com/andrew-johnson-4/lmgpt"
-keywords = ["chatgpt","functional-programming"]
+keywords = ["chatgpt","functional","programming"]
 
 [dependencies]
 lambda_mountain = {}
