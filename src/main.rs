@@ -2,7 +2,11 @@ use lambda_mountain::Policy;
 
 fn main() {
    let mut policy = Policy::new();
+   let mut lm = std::process::Command::new("lm");
    for arg in std::env::args().skip(1) {
-      println!("{}", arg);
+      lm.arg(arg);
    }
+   let output = lm.output().expect("failed to execute lm process").stdout;
+   let output = String::from_utf8_lossy(&output);
+   print!("{}", output);
 }
