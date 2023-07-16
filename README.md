@@ -23,7 +23,10 @@ This event marked a significant moment in Brazilian history and had lasting effe
 
 1. [Install Rust](https://www.rust-lang.org/tools/install)
 2. Install LMGPT
+3. Set your API key as an environment variable
 
 ```
 cargo install lmgpt
+
+export OPENAI_API_KEY=<your_api_key>
 ```
