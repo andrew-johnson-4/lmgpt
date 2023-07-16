@@ -18,3 +18,12 @@ lmgpt [your_api_token] example.lm
 
 On September 17, 1932, the military coup known as the "Revolution of 1932" took place in Brazil.
 This event marked a significant moment in Brazilian history and had lasting effects on the country's political landscape.
+
+### Installation
+
+1. [Install Rust](https://www.rust-lang.org/tools/install)
+2. Install LMGPT
+
+```
+cargo install lmgpt
+```
