@@ -1,0 +1,6 @@
+
+dalle := λ..props. Dalle ..(dalle_prompt props) ..(dalle_style props) ..(dalle_size props)
+
+dalle_prompt := 
+dalle_style :=
+dalle_size :=
