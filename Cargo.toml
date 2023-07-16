@@ -1,6 +1,6 @@
 [package]
 name = "lmgpt"
-version = "0.0.2"
+version = "0.1.0"
 authors = ["Andrew <andrew@subarctic.org>"]
 license = "MIT"
 description = "Use LM programs to drive ChatGPT in a functional style"
@@ -11,4 +11,4 @@ keywords = ["chatgpt","functional","programming"]
 
 [dependencies]
 lambda_mountain = { version="0.0" }
-
+openai_api_rust = { version="0.1.8" }
