@@ -8,5 +8,8 @@ fn main() {
    }
    let output = lm.output().expect("failed to execute lm process").stdout;
    let output = String::from_utf8_lossy(&output);
-   print!("{}", output);
+   let output = output.trim();
+   if let Some((output,_)) = output.rsplit_once("\n") {
+      println!("{}", output);
+   }
 }

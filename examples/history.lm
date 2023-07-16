@@ -1,3 +1,16 @@
-history := λyyyy mm d. Tell me a historical event that happened on (month mm) dd yyyy
+month := λ01. January
+month := λ02. February
+month := λ03. March
+month := λ04. April
+month := λ05. May
+month := λ06. June
+month := λ07. July
+month := λ08. August
+month := λ09. September
+month := λ10. October
+month := λ11. November
+month := λ12. December
+
+history := λyyyy mm dd. Tell me a historical event that happened on (month mm) dd yyyy
 
 print (history 1932 09 17)
