@@ -10,5 +10,5 @@ repository = "https://github.com/andrew-johnson-4/lmgpt"
 keywords = ["chatgpt","functional","programming"]
 
 [dependencies]
-lambda_mountain = {}
+lambda_mountain = { version="0.0" }
 
