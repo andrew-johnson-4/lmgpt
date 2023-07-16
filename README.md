@@ -11,7 +11,7 @@ print (history 1932 09 17)
 ### Running the Example
 
 ```
-lmgpt [your_api_token] example.lm
+lmgpt example.lm
 ```
 
 ### Example Output
