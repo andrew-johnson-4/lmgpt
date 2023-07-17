@@ -1,22 +1,12 @@
-use lambda_mountain::Policy;
+use lambda_mountain::{Rhs,Policy};
 
 use openai_api_rust::*;
 use openai_api_rust::chat::*;
-use openai_api_rust::completions::*;
 
-fn main() {
-   let mut policy = Policy::new();
-   let mut lm = std::process::Command::new("lm");
-   for arg in std::env::args().skip(1) {
-      lm.arg(arg);
-   }
-   let output = lm.output().expect("failed to execute lm process").stdout;
-   let output = String::from_utf8_lossy(&output);
-   let mut output = output.trim().to_string();
-   if let Some((o,_)) = output.rsplit_once("\n") {
-      output = o.to_string();
-   }
+use std::fs::File;
+use std::io::Read;
 
+fn chat(prompt: &str) -> String {
    let auth = Auth::from_env().unwrap();
    let openai = OpenAI::new(auth, "https://api.openai.com/v1/");
    let body = ChatBody {
@@ -31,10 +21,67 @@ fn main() {
        frequency_penalty: None,
        logit_bias: None,
        user: None,
-       messages: vec![Message { role: Role::User, content: output }],
+       messages: vec![Message { role: Role::User, content: prompt.to_string() }],
    };
    let rs = openai.chat_completion_create(&body);
    let choice = rs.unwrap().choices;
    let message = &choice[0].message.as_ref().unwrap();
-   println!("{}", message.content);
+   return message.content.clone();
+}
+
+fn cat(args: &[Rhs]) -> String {
+   let mut s = String::new();
+   for (i,a) in args.iter().enumerate() {
+      if i>0 {
+         s.push(' ');
+      }
+      s.push_str(&a.to_string());
+   }
+   s
+}
+
+fn hashtags(args: &[Rhs]) -> Rhs {
+   let subject = cat(args);
+   Rhs::Literal(chat(&format!("Suggest a list of hashtags to describe this document: {}",subject)))
+}
+
+fn keywords(args: &[Rhs]) -> Rhs {
+   let subject = cat(args);
+   Rhs::Literal(chat(&format!("Suggest a list of keywords to describe this document: {}",subject)))
+}
+
+fn random(args: &[Rhs]) -> Rhs {
+   let subject = cat(args);
+   Rhs::Literal(chat(&format!("Tell me the name of a random {}.",subject)))
+}
+
+fn translate(args: &[Rhs]) -> Rhs {
+   let mut lang = "English".to_string();
+   if args.len()>0 {
+      lang = args[0].to_string();
+   }
+   let subject = cat(&args[1..]);
+   Rhs::Literal(chat(&format!("Translate the following text into {}: {}.",lang,subject)))
+}
+
+fn main() {
+   let mut policy = Policy::new();
+   policy.bind_extern("random", &random);
+   policy.bind_extern("translate", &translate);
+   policy.bind_extern("hashtags", &hashtags);
+   policy.bind_extern("keywords", &keywords);
+
+   let mut prompt = String::new();
+   for arg in std::env::args().skip(1) {
+      let mut p = String::new();
+      let mut file = File::open(arg).expect("load_policy: error opening file");
+      file.read_to_string(&mut p).expect("load_policy: unable to read to string");
+      if let Result::Err(o) = policy.load(&p) {
+         prompt = o.clone();
+      }
+   }
+
+   if prompt.len()>0 {
+      println!("{}", chat(&prompt));
+   }
 }
