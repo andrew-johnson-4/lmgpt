@@ -1,3 +1,3 @@
 install:
 	cargo install --path .
-	lmgpt examples/random.lm
+	lmgpt examples/translate.lm

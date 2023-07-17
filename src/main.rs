@@ -40,9 +40,25 @@ fn random(args: &[Rhs]) -> Rhs {
    Rhs::Literal(chat(&format!("Tell me the name of a random {}.",subject)))
 }
 
+fn translate(args: &[Rhs]) -> Rhs {
+   let mut lang = "English".to_string();
+   if args.len()>0 {
+      lang = args[0].to_string();
+   }
+   let mut subject = String::new();
+   for (i,a) in args[1..].iter().enumerate() {
+      if i>0 {
+         subject.push(' ');
+      }
+      subject.push_str(&a.to_string());
+   }
+   Rhs::Literal(chat(&format!("Translate the following text into {}: {}.",lang,subject)))
+}
+
 fn main() {
    let mut policy = Policy::new();
    policy.bind_extern("random", &random);
+   policy.bind_extern("translate", &translate);
 
    let mut prompt = String::new();
    for arg in std::env::args().skip(1) {
@@ -54,5 +70,7 @@ fn main() {
       }
    }
 
-   println!("{}", chat(&prompt));
+   if prompt.len()>0 {
+      println!("{}", chat(&prompt));
+   }
 }
