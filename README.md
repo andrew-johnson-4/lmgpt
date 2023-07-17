@@ -5,7 +5,7 @@ lmgpt is an adapter to connect [LM](https://github.com/andrew-johnson-4/-) progr
 ```
 history := λyyyy mm dd. Tell me a historical event that happened on (month mm) dd yyyy
 
-print (history 1932 09 17)
+error (history 1932 09 17)
 ```
 
 ### Running the Example
