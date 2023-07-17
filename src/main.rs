@@ -1,11 +1,16 @@
-use lambda_mountain::Policy;
+use lambda_mountain::{Rhs,Policy};
 
 use openai_api_rust::*;
 use openai_api_rust::chat::*;
-use openai_api_rust::completions::*;
+
+fn random(args: &[Rhs]) -> Rhs {
+   Rhs::Literal("Homer".to_string())
+}
 
 fn main() {
    let mut policy = Policy::new();
+   policy.bind_extern("random", &random);
+
    let mut lm = std::process::Command::new("lm");
    for arg in std::env::args().skip(1) {
       lm.arg(arg);
