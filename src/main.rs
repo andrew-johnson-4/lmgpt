@@ -29,14 +29,29 @@ fn chat(prompt: &str) -> String {
    return message.content.clone();
 }
 
-fn random(args: &[Rhs]) -> Rhs {
-   let mut subject = String::new();
+fn cat(args: &[Rhs]) -> String {
+   let mut s = String::new();
    for (i,a) in args.iter().enumerate() {
       if i>0 {
-         subject.push(' ');
+         s.push(' ');
       }
-      subject.push_str(&a.to_string());
+      s.push_str(&a.to_string());
    }
+   s
+}
+
+fn hashtags(args: &[Rhs]) -> Rhs {
+   let subject = cat(args);
+   Rhs::Literal(chat(&format!("Suggest a list of hashtags to describe this document: {}",subject)))
+}
+
+fn keywords(args: &[Rhs]) -> Rhs {
+   let subject = cat(args);
+   Rhs::Literal(chat(&format!("Suggest a list of keywords to describe this document: {}",subject)))
+}
+
+fn random(args: &[Rhs]) -> Rhs {
+   let subject = cat(args);
    Rhs::Literal(chat(&format!("Tell me the name of a random {}.",subject)))
 }
 
@@ -45,13 +60,7 @@ fn translate(args: &[Rhs]) -> Rhs {
    if args.len()>0 {
       lang = args[0].to_string();
    }
-   let mut subject = String::new();
-   for (i,a) in args[1..].iter().enumerate() {
-      if i>0 {
-         subject.push(' ');
-      }
-      subject.push_str(&a.to_string());
-   }
+   let subject = cat(&args[1..]);
    Rhs::Literal(chat(&format!("Translate the following text into {}: {}.",lang,subject)))
 }
 
@@ -59,6 +68,8 @@ fn main() {
    let mut policy = Policy::new();
    policy.bind_extern("random", &random);
    policy.bind_extern("translate", &translate);
+   policy.bind_extern("hashtags", &hashtags);
+   policy.bind_extern("keywords", &keywords);
 
    let mut prompt = String::new();
    for arg in std::env::args().skip(1) {
