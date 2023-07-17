@@ -3,7 +3,11 @@ use lambda_mountain::{Rhs,Policy};
 use openai_api_rust::*;
 use openai_api_rust::chat::*;
 
+use std::fs::File;
+use std::io::Read;
+
 fn random(args: &[Rhs]) -> Rhs {
+   println!("random");
    Rhs::Literal("Homer".to_string())
 }
 
@@ -11,15 +15,14 @@ fn main() {
    let mut policy = Policy::new();
    policy.bind_extern("random", &random);
 
-   let mut lm = std::process::Command::new("lm");
+   let mut output = String::new();
    for arg in std::env::args().skip(1) {
-      lm.arg(arg);
-   }
-   let output = lm.output().expect("failed to execute lm process").stdout;
-   let output = String::from_utf8_lossy(&output);
-   let mut output = output.trim().to_string();
-   if let Some((o,_)) = output.rsplit_once("\n") {
-      output = o.to_string();
+      let mut p = String::new();
+      let mut file = File::open(arg).expect("load_policy: error opening file");
+      file.read_to_string(&mut p).expect("load_policy: unable to read to string");
+      if let Result::Err(o) = policy.load(&p) {
+         output = o.clone();
+      }
    }
 
    let auth = Auth::from_env().unwrap();

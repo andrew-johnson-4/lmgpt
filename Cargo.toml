@@ -10,5 +10,5 @@ repository = "https://github.com/andrew-johnson-4/lmgpt"
 keywords = ["chatgpt","functional","programming"]
 
 [dependencies]
-lambda_mountain = { version="0.0.14" }
+lambda_mountain = { version="0.0.16" }
 openai_api_rust = { version="0.1.8" }
