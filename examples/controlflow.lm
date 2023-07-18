@@ -1,0 +1,14 @@
+while True (λ.
+   print Hello World
+)
+
+foreach (2 3 4 5) (λ x.
+   print x
+)
+
+if True (print A) (print B)
+
+match (A 1) (
+   (λA a. print a)
+   (λB b. print b)
+)
