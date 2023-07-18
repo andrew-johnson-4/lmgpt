@@ -76,6 +76,7 @@ fn main() {
    policy.bind_extern("hashtags", &hashtags);
    policy.bind_extern("keywords", &keywords);
    policy.bind_extern("autocomplete", &autocomplete);
+   policy.load(include_str!("../preludes/lmgpt.lm")).expect("unable to read prelude lmgpt.lm");
 
    let mut prompt = String::new();
    for arg in std::env::args().skip(1) {
