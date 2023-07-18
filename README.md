@@ -30,3 +30,7 @@ cargo install lmgpt
 
 export OPENAI_API_KEY=<your_api_key>
 ```
+
+### Documentation
+
+[Master List of LM ChatGPT Prompt Helper Functions.](https://medium.com/@andrew_johnson_4/master-list-of-lm-chatgpt-prompt-helper-functions-816e9a09fba9)
