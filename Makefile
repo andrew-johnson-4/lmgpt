@@ -1,3 +1,3 @@
 install:
 	cargo install --path .
-	lmgpt examples/hashtags.lm
+	lmgpt examples/autocomplete.lm

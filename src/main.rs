@@ -55,6 +55,11 @@ fn random(args: &[Rhs]) -> Rhs {
    Rhs::Literal(chat(&format!("Tell me the name of a random {}.",subject)))
 }
 
+fn autocomplete(args: &[Rhs]) -> Rhs {
+   let subject = cat(args);
+   Rhs::Literal(chat(&format!("Complete the following sentence. {}",subject)))
+}
+
 fn translate(args: &[Rhs]) -> Rhs {
    let mut lang = "English".to_string();
    if args.len()>0 {
@@ -70,6 +75,7 @@ fn main() {
    policy.bind_extern("translate", &translate);
    policy.bind_extern("hashtags", &hashtags);
    policy.bind_extern("keywords", &keywords);
+   policy.bind_extern("autocomplete", &autocomplete);
 
    let mut prompt = String::new();
    for arg in std::env::args().skip(1) {
